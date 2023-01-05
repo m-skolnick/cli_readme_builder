@@ -1,0 +1,17 @@
+# Read about `build.yaml` at https://pub.dev/packages/build_config
+targets:
+  $default:
+    builders:
+      cli_readme_builder:
+        enabled: true
+
+builders:
+  cli_readme_builder:
+    import: "package:cli_readme_builder/builder.dart"
+    builder_factories: ["cliReadmeBuilder"]
+    build_extensions: {"pubspec.yaml": ["README.g.md"]}
+    defaults:
+      options:
+        output: "README.g.md"
+    build_to: source
+    auto_apply: dependents
