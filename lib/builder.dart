@@ -10,8 +10,11 @@ library builder;
 import 'dart:async';
 
 import 'package:build/build.dart';
-import 'package:process_run/shell.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
+
+import 'src/executable_finder.dart';
+import 'src/help_output_model.dart';
+import 'src/system_shell.dart';
 
 const _defaultOutput = 'README.md';
 
@@ -25,12 +28,15 @@ class _ReadmeBuilder implements Builder {
 
   @override
   Future<void> build(BuildStep buildStep) async {
-    final output = await Shell(
-      verbose: false,
-      commandVerbose: false,
-      commentVerbose: false,
-    ).run('dart run');
-    final initialOutput = output.first.outText;
+    final executablePath = ExecutableFinder.getExecutablePath();
+
+    final topLevelOutput = await SystemShell.run('dart run $executablePath --help');
+
+    final topLevelHelpModel = await HelpOutputModel.fromHelpOutput(
+      output: topLevelOutput,
+      executablePath: executablePath,
+      parents: '',
+    );
 
     final assetId = AssetId(buildStep.inputId.package, 'pubspec.yaml');
 
@@ -52,7 +58,7 @@ class _ReadmeBuilder implements Builder {
     await buildStep.writeAsString(
       buildStep.allowedOutputs.single,
       '''
-$initialOutput
+$topLevelOutput
 // Generated code. Do not modify.
 const packageVersion = '${pubspec.version}';
 ''',
