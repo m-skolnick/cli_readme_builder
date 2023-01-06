@@ -40,7 +40,15 @@ class _ReadmeBuilder implements Builder {
     await buildStep.writeAsString(
       buildStep.allowedOutputs.single,
       '''
-$topLevelOutput
+# ${topLevelHelpModel.description.join('\n')}
+
+## Usage
+
+${topLevelHelpModel.toOutput()}
+
+## Available commands
+
+${_getAvailableCommands(topLevelHelpModel)}
 ''',
     );
   }
@@ -49,4 +57,12 @@ $topLevelOutput
   Map<String, List<String>> get buildExtensions => {
         'pubspec.yaml': [output],
       };
+}
+
+String _getAvailableCommands(HelpOutputModel model) {
+  final lines = <String>[];
+  for (var command in model.subCommandOutput) {
+    lines.add('* [${command.commandName}](#${command.commandName})');
+  }
+  return lines.join('\n');
 }

@@ -21,7 +21,7 @@ class HelpOutputModel {
   /// Parsed help output from each sub command
   final List<HelpOutputModel> subCommandOutput;
 
-  HelpOutputModel._({
+  HelpOutputModel({
     required this.commandName,
     required this.description,
     required this.entireHelpOutput,
@@ -153,19 +153,27 @@ Run "example_cli help" to see global options.
 
     Future<List<HelpOutputModel>> getSubCommandsOutput() async {
       final subCommandsOutput = <HelpOutputModel>[];
+
       if (recursive) {
         final commandList = getCommandList();
         final commandName = getCommandName();
-        for (var childCommand in commandList) {
-          final parentsWithoutCliName = parents.split(' ').where((e) => e.trim().isNotEmpty).skip(1).join(' ');
 
-          final commandChain = [executablePath, parentsWithoutCliName, childCommand].join(' ').trim();
+        final parentsWithoutCliName = parents.split(' ').skip(1).join(' ');
+
+        for (var childCommand in commandList) {
+          final commandChain = [
+            executablePath,
+            parentsWithoutCliName,
+            if (parents.isNotEmpty) commandName,
+            childCommand,
+          ].where((e) => e.trim().isNotEmpty).join(' ').trim();
+          print(commandChain);
           final commandOutput = await SystemShell.run('dart run $commandChain --help');
           subCommandsOutput.add(
             await HelpOutputModel.fromHelpOutput(
               output: commandOutput,
               executablePath: executablePath,
-              parents: [parents, commandName].where((e) => e.trim().isNotEmpty).join(' ').trim(),
+              parents: [parents, commandName].where((e) => e.trim().isNotEmpty).join(' '),
             ),
           );
         }
@@ -177,7 +185,7 @@ Run "example_cli help" to see global options.
     setSectionStarts();
     setSectionEnds();
 
-    return HelpOutputModel._(
+    return HelpOutputModel(
       description: getDescription(),
       entireHelpOutput: output,
       parents: parents,
@@ -186,4 +194,16 @@ Run "example_cli help" to see global options.
       subCommandOutput: await getSubCommandsOutput(),
     );
   }
+
+  String toOutput() => '''
+```sh
+$parents $commandName --help
+```
+
+Help output:
+
+```
+$entireHelpOutput
+```
+''';
 }
