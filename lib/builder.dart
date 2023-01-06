@@ -16,12 +16,12 @@ import 'package:pubspec_parse/pubspec_parse.dart';
 const _defaultOutput = 'README.md';
 
 Builder cliReadmeBuilder([BuilderOptions? options]) =>
-    _VersionBuilder((options?.config['output'] as String?) ?? _defaultOutput);
+    _ReadmeBuilder((options?.config['output'] as String?) ?? _defaultOutput);
 
-class _VersionBuilder implements Builder {
+class _ReadmeBuilder implements Builder {
   final String output;
 
-  _VersionBuilder(this.output);
+  _ReadmeBuilder(this.output);
 
   @override
   Future<void> build(BuildStep buildStep) async {

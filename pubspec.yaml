@@ -1,5 +1,5 @@
 name: cli_readme_builder
-description: A builder for generating a commands markdown from CLI --help
+description: A builder for generating a readme file from CLI
 version: 0.0.1
 repository: https://github.com/m-skolnick/cli_readme_builder
 
