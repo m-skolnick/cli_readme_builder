@@ -2,6 +2,22 @@
 [![Pub Package](https://img.shields.io/pub/v/cli_readme_builder.svg)](https://pub.dev/packages/cli_readme_builder)
 [![package publisher](https://img.shields.io/pub/publisher/cli_readme_builder.svg)](https://pub.dev/packages/cli_readme_builder/publisher)
 
+
+## Overview
+### Purpose
+
+Generate a file which contains --help output from every command in a Dart console application.
+
+### How it Works
+
+This builder works as follows:
+1. Find the binary executable file in your package
+1. Run the executable with the `--help` flag
+1. Capture the output and parse it
+1. For each command in the help output, capture the `--help` output of that command and it's sub-commands
+1. Generate a file with the information gathered above
+
+## Usage
 Include the version of your package in our source code.
 
 1. Add `cli_readme_builder` to `pubspec.yaml`. Also make sure there is a `version`
@@ -28,6 +44,8 @@ Include the version of your package in our source code.
     # Description
 
     ```
+
+## Customization
 
 To change the path of the generated file, create a [`build.yaml`](build config)
 in the root of your package.
