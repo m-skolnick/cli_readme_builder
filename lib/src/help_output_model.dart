@@ -1,12 +1,14 @@
+import 'system_shell.dart';
+
 class HelpOutputModel {
+  /// Name of command
+  final String? commandName;
+
   /// Description of command (ie.. help)
   final List<String> description;
 
   /// Entire help output (ie.. all the output to console when <command> --help is ran)
   final String entireHelpOutput;
-
-  /// Name of command
-  final String? commandName;
 
   /// Concatenated parents of this command
   /// eg: for the child of a leaf command, the parents would be: 'test_cli leaf_command'
@@ -19,17 +21,13 @@ class HelpOutputModel {
   /// Parsed help output from each sub command
   final List<HelpOutputModel> subCommandOutput;
 
-  /// Usage
-  final List<String> usage;
-
   HelpOutputModel._({
+    required this.commandName,
     required this.description,
     required this.entireHelpOutput,
-    required this.commandName,
     required this.parents,
     required this.subCommands,
     required this.subCommandOutput,
-    required this.usage,
   });
 
   /// Parse from output
@@ -66,88 +64,126 @@ Run "example_cli help" to see global options.
     required String output,
     required String executablePath,
     required String parents,
-    bool isTopLevel = false,
     bool recursive = true,
   }) async {
     final outputLines = output.split('\n');
 
-    const descriptionStart = 0;
-    final usageStart = outputLines.indexWhere((e) => e.contains('Usage: ') && e.contains('[arguments]'));
-    final commandsListSectionStart =
-        outputLines.indexWhere((e) => e.contains('Available commands:') || e.contains('Available subcommands:'));
-    final commandsListStart = commandsListSectionStart + 1;
-    final helpPromptStart = outputLines.indexWhere((e) => e.contains('Run') && e.contains('help'));
+    late int descriptionStart;
+    late int usageStart;
+    late int commandsListSectionStart;
+    late int commandsListStart;
+    late int helpPromptStart;
 
-    final descriptionEnd = usageStart - 1;
-    final usageEnd = commandsListSectionStart - 1;
-    final commandsListEnd = helpPromptStart - 1;
+    void setSectionStarts() {
+      descriptionStart = 0;
+      usageStart = outputLines.indexWhere((e) => e.contains('Usage: ') && e.contains('[arguments]'));
+      commandsListSectionStart =
+          outputLines.indexWhere((e) => e.contains('Available commands:') || e.contains('Available subcommands:'));
+      commandsListStart = commandsListSectionStart + 1;
+      helpPromptStart = outputLines.indexWhere((e) => e.contains('Run') && e.contains('help'));
+    }
 
-    final description = outputLines
+    late int descriptionEnd;
+    late int usageEnd;
+    late int commandsListEnd;
+
+    void setSectionEnds() {
+      descriptionEnd = usageStart - 1;
+      usageEnd = commandsListSectionStart - 1;
+      if (commandsListSectionStart == -1) {
+        usageEnd = helpPromptStart - 1;
+      }
+      commandsListEnd = helpPromptStart - 1;
+    }
+
+    List<String> getDescription() => outputLines
         .getRange(
           descriptionStart,
           descriptionEnd,
         )
         .toList();
 
-    final usage = outputLines
-        .getRange(
-          usageStart,
-          usageEnd,
-        )
-        .toList();
-
-    final commandList = outputLines
-        .getRange(
-      commandsListStart,
-      commandsListEnd,
-    )
-        .map((e) {
-      final trimmed = e.trimLeft();
-      final commandNameEnd = trimmed.indexOf(' ');
-      return trimmed.substring(0, commandNameEnd);
-    }).toList();
-
-    String commandName;
-    if (parents.isEmpty) {
-      // set executable name
-      final usageLine = usage.first;
-      const usageString = 'Usage: ';
-      final startOfName = usageLine.indexOf(usageString) + usageString.length;
-      final endOfName = usageLine.indexOf(' <command>');
-      commandName = usageLine.substring(startOfName, endOfName);
-    } else {
-      // set command name
-      final usageLine = usage.first;
-      final startOfName = usageLine.indexOf(parents) + parents.length;
-      var endOfName = usageLine.indexOf(' <subcommand>');
-      if (endOfName == -1) {
-        endOfName = usageLine.indexOf(' [arguments]');
+    List<String> getCommandList() {
+      if (commandsListSectionStart == -1) {
+        return [];
       }
-      commandName = usageLine.substring(startOfName, endOfName);
+
+      return outputLines
+          .getRange(
+        commandsListStart,
+        commandsListEnd,
+      )
+          .map((e) {
+        final trimmed = e.trimLeft();
+        final commandNameEnd = trimmed.indexOf(' ');
+        return trimmed.substring(0, commandNameEnd);
+      }).toList();
     }
 
-    final subCommandOutput = [];
-    if (recursive) {
-      // for (var command in commandList) {
-      //   final commandChain = [executablePath, commandName].join(' ');
-      //   final commandOutput = await SystemShell.run('dart run $commandChain --help');
+    String getCommandName() {
+      String commandName;
 
-      //   await HelpOutputModel.fromHelpOutput(
-      //     output: commandOutput,
-      //     executablePath: executablePath,
-      //     // parents: parents + commandName;
-      //   );
-      // }
+      final usage = outputLines
+          .getRange(
+            usageStart,
+            usageEnd,
+          )
+          .toList();
+
+      if (parents.isEmpty) {
+        // set executable name
+        final usageLine = usage.first;
+        const usageString = 'Usage: ';
+        final startOfName = usageLine.indexOf(usageString) + usageString.length;
+        final endOfName = usageLine.indexOf(' <command>');
+        commandName = usageLine.substring(startOfName, endOfName);
+      } else {
+        // set command name
+        final usageLine = usage.first;
+        final startOfName = usageLine.indexOf(parents) + parents.length + 1;
+        var endOfName = usageLine.indexOf(' <subcommand>');
+        if (endOfName == -1) {
+          endOfName = usageLine.indexOf(' [arguments]');
+        }
+        commandName = usageLine.substring(startOfName, endOfName);
+      }
+
+      return commandName;
     }
+
+    Future<List<HelpOutputModel>> getSubCommandsOutput() async {
+      final subCommandsOutput = <HelpOutputModel>[];
+      if (recursive) {
+        final commandList = getCommandList();
+        final commandName = getCommandName();
+        for (var childCommand in commandList) {
+          final parentsWithoutCliName = parents.split(' ').where((e) => e.trim().isNotEmpty).skip(1).join(' ');
+
+          final commandChain = [executablePath, parentsWithoutCliName, childCommand].join(' ').trim();
+          final commandOutput = await SystemShell.run('dart run $commandChain --help');
+          subCommandsOutput.add(
+            await HelpOutputModel.fromHelpOutput(
+              output: commandOutput,
+              executablePath: executablePath,
+              parents: [parents, commandName].where((e) => e.trim().isNotEmpty).join(' ').trim(),
+            ),
+          );
+        }
+      }
+
+      return subCommandsOutput;
+    }
+
+    setSectionStarts();
+    setSectionEnds();
 
     return HelpOutputModel._(
-      description: description,
+      description: getDescription(),
       entireHelpOutput: output,
       parents: parents,
-      commandName: commandName,
-      subCommands: commandList,
-      subCommandOutput: [],
-      usage: usage,
+      commandName: getCommandName(),
+      subCommands: getCommandList(),
+      subCommandOutput: await getSubCommandsOutput(),
     );
   }
 }

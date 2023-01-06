@@ -1,3 +1,5 @@
+void main() {}
+
 // import 'dart:convert';
 
 // import 'package:build/build.dart';

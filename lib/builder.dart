@@ -10,7 +10,6 @@ library builder;
 import 'dart:async';
 
 import 'package:build/build.dart';
-import 'package:pubspec_parse/pubspec_parse.dart';
 
 import 'src/executable_finder.dart';
 import 'src/help_output_model.dart';
@@ -38,29 +37,10 @@ class _ReadmeBuilder implements Builder {
       parents: '',
     );
 
-    final assetId = AssetId(buildStep.inputId.package, 'pubspec.yaml');
-
-    if (assetId != buildStep.inputId) {
-      // Skip nested packages!
-      // Should be able to use `^pubspec.yaml` – but it does not work
-      // See https://github.com/dart-lang/build/issues/3286
-      return;
-    }
-
-    final content = await buildStep.readAsString(assetId);
-
-    final pubspec = Pubspec.parse(content, sourceUrl: assetId.uri);
-
-    if (pubspec.version == null) {
-      throw StateError('pubspec.yaml does not have a version defined.');
-    }
-
     await buildStep.writeAsString(
       buildStep.allowedOutputs.single,
       '''
 $topLevelOutput
-// Generated code. Do not modify.
-const packageVersion = '${pubspec.version}';
 ''',
     );
   }

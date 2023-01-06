@@ -22,12 +22,19 @@ Run "$_mockCliName help <command>" for more information about a command.
           output: mockOutput,
           executablePath: '',
           parents: '',
-          isTopLevel: true,
           recursive: false,
         );
         expect(model.commandName, equals(_mockCliName));
         expect(model.parents, isEmpty);
         expect(model.description, equals(['Mock Description']));
+        expect(model.entireHelpOutput, equals(mockOutput));
+        expect(
+          model.subCommands,
+          equals([
+            'command_1',
+            'command_2',
+          ]),
+        );
       },
     );
     test(
@@ -36,7 +43,7 @@ Run "$_mockCliName help <command>" for more information about a command.
         const mockOutput = '''
 Mock Description
 
-Usage: $_mockCliName command_name <subcommand> [arguments]
+Usage: $_mockCliName branch_command <subcommand> [arguments]
 
 Available subcommands:
   command_1   command 1 description
@@ -50,8 +57,17 @@ Run "$_mockCliName help" to see global options.
           parents: _mockCliName,
           recursive: false,
         );
-        expect(model.parents, equals('command_name'));
+        expect(model.commandName, equals('branch_command'));
         expect(model.description, equals(['Mock Description']));
+        expect(model.entireHelpOutput, equals(mockOutput));
+        expect(model.parents, equals(_mockCliName));
+        expect(
+          model.subCommands,
+          equals([
+            'command_1',
+            'command_2',
+          ]),
+        );
       },
     );
     test(
@@ -71,8 +87,39 @@ Run "$_mockCliName help" to see global options.
           parents: _mockCliName,
           recursive: false,
         );
-        expect(model.parents, equals('leaf_command'));
+        expect(model.commandName, equals('leaf_command'));
         expect(model.description, equals(['Mock Leaf Command description']));
+        expect(model.entireHelpOutput, equals(mockOutput));
+        expect(
+          model.subCommands,
+          isEmpty,
+        );
+      },
+    );
+    test(
+      'correctly parses child of branch command output',
+      () async {
+        const mockOutput = '''
+Mock Command description
+
+Usage: $_mockCliName branch_command child_command [arguments]
+-h, --help    Print this usage information.
+
+Run "$_mockCliName help" to see global options.
+''';
+        final model = await HelpOutputModel.fromHelpOutput(
+          output: mockOutput,
+          executablePath: '',
+          parents: '$_mockCliName branch_command',
+          recursive: false,
+        );
+        expect(model.commandName, equals('child_command'));
+        expect(model.description, equals(['Mock Command description']));
+        expect(model.entireHelpOutput, equals(mockOutput));
+        expect(
+          model.subCommands,
+          isEmpty,
+        );
       },
     );
   });
