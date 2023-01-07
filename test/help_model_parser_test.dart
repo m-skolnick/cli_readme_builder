@@ -1,9 +1,9 @@
-import 'package:cli_readme_builder/src/help_output_model.dart';
+import 'package:cli_readme_builder/src/help_model/help_model_parser.dart';
 import 'package:test/test.dart';
 
 const _mockCliName = 'mock_cli_name';
 void main() {
-  group('HelpOutputModel', () {
+  group('HelpModelParser', () {
     test(
       'correctly parses top level command output',
       () async {
@@ -18,12 +18,12 @@ Available commands:
 
 Run "$_mockCliName help <command>" for more information about a command.
 ''';
-        final model = await HelpOutputModel.fromHelpOutput(
+        final model = await HelpModelParser(
           output: mockOutput,
           executablePath: '',
           parents: '',
           recursive: false,
-        );
+        ).parseModel();
         expect(model.commandName, equals(_mockCliName));
         expect(model.parents, isEmpty);
         expect(model.description, equals(['Mock Description']));
@@ -51,12 +51,12 @@ Available subcommands:
 
 Run "$_mockCliName help" to see global options.
 ''';
-        final model = await HelpOutputModel.fromHelpOutput(
+        final model = await HelpModelParser(
           output: mockOutput,
           executablePath: '',
           parents: _mockCliName,
           recursive: false,
-        );
+        ).parseModel();
         expect(model.commandName, equals('branch_command'));
         expect(model.description, equals(['Mock Description']));
         expect(model.entireHelpOutput, equals(mockOutput));
@@ -81,12 +81,12 @@ Usage: $_mockCliName leaf_command [arguments]
 
 Run "$_mockCliName help" to see global options.
 ''';
-        final model = await HelpOutputModel.fromHelpOutput(
+        final model = await HelpModelParser(
           output: mockOutput,
           executablePath: '',
           parents: _mockCliName,
           recursive: false,
-        );
+        ).parseModel();
         expect(model.commandName, equals('leaf_command'));
         expect(model.description, equals(['Mock Leaf Command description']));
         expect(model.entireHelpOutput, equals(mockOutput));
@@ -107,12 +107,12 @@ Usage: $_mockCliName branch_command child_command [arguments]
 
 Run "$_mockCliName help" to see global options.
 ''';
-        final model = await HelpOutputModel.fromHelpOutput(
+        final model = await HelpModelParser(
           output: mockOutput,
           executablePath: '',
           parents: '$_mockCliName branch_command',
           recursive: false,
-        );
+        ).parseModel();
         expect(model.commandName, equals('child_command'));
         expect(model.description, equals(['Mock Command description']));
         expect(model.entireHelpOutput, equals(mockOutput));

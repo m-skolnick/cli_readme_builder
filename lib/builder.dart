@@ -12,7 +12,8 @@ import 'dart:async';
 import 'package:build/build.dart';
 
 import 'src/executable_finder.dart';
-import 'src/help_output_model.dart';
+import 'src/help_model/help_model_parser.dart';
+import 'src/help_model/help_model_string_builder.dart';
 import 'src/system_shell.dart';
 
 const _defaultOutput = 'README.md';
@@ -31,25 +32,17 @@ class _ReadmeBuilder implements Builder {
 
     final topLevelOutput = await SystemShell.run('dart run $executablePath --help');
 
-    final topLevelHelpModel = await HelpOutputModel.fromHelpOutput(
-      output: topLevelOutput,
+    final topLevelHelpModel = await HelpModelParser(
       executablePath: executablePath,
       parents: '',
-    );
+      output: topLevelOutput,
+    ).parseModel();
+
+    final output = HelpModelStringBuilder(topLevelHelpModel).generateOutput();
 
     await buildStep.writeAsString(
       buildStep.allowedOutputs.single,
-      '''
-# ${topLevelHelpModel.description.join('\n')}
-
-## Usage
-
-${topLevelHelpModel.toOutput()}
-
-## Available commands
-
-${_getAvailableCommands(topLevelHelpModel)}
-''',
+      output,
     );
   }
 
@@ -57,12 +50,4 @@ ${_getAvailableCommands(topLevelHelpModel)}
   Map<String, List<String>> get buildExtensions => {
         'pubspec.yaml': [output],
       };
-}
-
-String _getAvailableCommands(HelpOutputModel model) {
-  final lines = <String>[];
-  for (var command in model.subCommandOutput) {
-    lines.add('* [${command.commandName}](#${command.commandName})');
-  }
-  return lines.join('\n');
 }
