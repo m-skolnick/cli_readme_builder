@@ -64,8 +64,8 @@ class HelpModelParser {
       entireHelpOutput: output,
       parents: parents,
       commandName: getCommandName(),
-      subCommands: getCommandList(),
-      subCommandOutput: await getSubCommandsOutput(),
+      childCommands: getCommandList(),
+      childCommandModels: await getSubCommandsOutput(),
     );
   }
 

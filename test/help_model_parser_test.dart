@@ -5,7 +5,8 @@ const _mockCliName = 'mock_cli_name';
 void main() {
   group('HelpModelParser', () {
     test(
-      'correctly parses top level command output',
+      'correctly parses '
+      'top level command output',
       () async {
         const mockOutput = '''
 Mock Description
@@ -29,7 +30,7 @@ Run "$_mockCliName help <command>" for more information about a command.
         expect(model.description, equals(['Mock Description']));
         expect(model.entireHelpOutput, equals(mockOutput));
         expect(
-          model.subCommands,
+          model.childCommands,
           equals([
             'command_1',
             'command_2',
@@ -38,7 +39,8 @@ Run "$_mockCliName help <command>" for more information about a command.
       },
     );
     test(
-      'correctly parses branch command output',
+      'correctly parses '
+      'branch command output',
       () async {
         const mockOutput = '''
 Mock Description
@@ -62,7 +64,7 @@ Run "$_mockCliName help" to see global options.
         expect(model.entireHelpOutput, equals(mockOutput));
         expect(model.parents, equals(_mockCliName));
         expect(
-          model.subCommands,
+          model.childCommands,
           equals([
             'command_1',
             'command_2',
@@ -71,7 +73,8 @@ Run "$_mockCliName help" to see global options.
       },
     );
     test(
-      'correctly parses leaf command output',
+      'correctly parses '
+      'leaf command output',
       () async {
         const mockOutput = '''
 Mock Leaf Command description
@@ -91,13 +94,14 @@ Run "$_mockCliName help" to see global options.
         expect(model.description, equals(['Mock Leaf Command description']));
         expect(model.entireHelpOutput, equals(mockOutput));
         expect(
-          model.subCommands,
+          model.childCommands,
           isEmpty,
         );
       },
     );
     test(
-      'correctly parses child of branch command output',
+      'correctly parses '
+      'child of branch command output',
       () async {
         const mockOutput = '''
 Mock Command description
@@ -117,7 +121,7 @@ Run "$_mockCliName help" to see global options.
         expect(model.description, equals(['Mock Command description']));
         expect(model.entireHelpOutput, equals(mockOutput));
         expect(
-          model.subCommands,
+          model.childCommands,
           isEmpty,
         );
       },

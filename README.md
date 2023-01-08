@@ -37,7 +37,7 @@ Include the version of your package in our source code.
     > dart pub run build_runner build
     ```
 
-    `README.md` will be generated with content:
+    `README.g.md` will be generated with content:
 
     [comment]: <> (Generated code. Do not modify.)
     ```md

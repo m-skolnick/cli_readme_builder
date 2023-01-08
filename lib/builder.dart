@@ -16,10 +16,7 @@ import 'src/help_model/help_model_parser.dart';
 import 'src/help_model/help_model_string_builder.dart';
 import 'src/system_shell.dart';
 
-const _defaultOutput = 'README.md';
-
-Builder cliReadmeBuilder([BuilderOptions? options]) =>
-    _ReadmeBuilder((options?.config['output'] as String?) ?? _defaultOutput);
+Builder cliReadmeBuilder([BuilderOptions? options]) => _ReadmeBuilder(options?.config['output'] as String);
 
 class _ReadmeBuilder implements Builder {
   final String output;
@@ -38,7 +35,7 @@ class _ReadmeBuilder implements Builder {
       output: topLevelOutput,
     ).parseModel();
 
-    final output = HelpModelStringBuilder(topLevelHelpModel).generateOutput();
+    final output = HelpModelStringBuilder.getFullOutput(topLevelHelpModel);
 
     await buildStep.writeAsString(
       buildStep.allowedOutputs.single,

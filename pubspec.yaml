@@ -10,6 +10,7 @@ dependencies:
   build: ^2.1.0
   # Not imported in code, but used to constrain `build.yaml` requirements
   build_config: ^1.0.0
+  meta: ^1.8.0
   process_run: ^0.12.3+2
   pubspec_parse: ^1.0.0
 
