@@ -8,13 +8,10 @@ import 'package:process_run/shell.dart';
 Future<void> main(List<String> args) async {
   final newVersion = args.first;
 
-  final dryRunResult = await Shell().run('dart pub publish --dry-run');
+  final dryRunResult = await Shell(
+    throwOnError: false,
+  ).run('dart pub publish --dry-run');
   if (dryRunResult.first.exitCode != 0) {
-    return;
-  }
-  // If the changelog doesn't contain the current version, this will be a warning in
-  // the publish output
-  if (dryRunResult.outText.contains('mention current version')) {
     return;
   }
 
