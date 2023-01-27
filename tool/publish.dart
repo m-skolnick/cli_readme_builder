@@ -4,6 +4,9 @@ import 'package:process_run/shell.dart';
 // Soon this will be moved to a github action which runs on [main]
 Future<void> main(List<String> args) async {
   final newVersion = args.first;
-  await Shell().run('dart pub publish -f');
+  final results = await Shell().run('dart pub publish -f');
+  if (results.first.exitCode != 0) {
+    return;
+  }
   await Shell().run('gh release create $newVersion --notes "$newVersion"');
 }
