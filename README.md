@@ -1,14 +1,10 @@
-[![CI](https://github.com/m-skolnick/cli_readme_builder/workflows/CI/badge.svg?branch=master)](https://github.com/m-skolnick/cli_readme_builder/actions?query=workflow%3ACI+branch%3Amaster)
-[![Pub Package](https://img.shields.io/pub/v/cli_readme_builder.svg)](https://pub.dev/packages/cli_readme_builder)
-[![package publisher](https://img.shields.io/pub/publisher/cli_readme_builder.svg)](https://pub.dev/packages/cli_readme_builder/publisher)
-
-
 ## Overview
-### Purpose
 
-Generate a file which contains --help output from every command in a Dart console application.
+The goal of this package is to automated the process of creating a readme file for Dart console applications.
 
 ### How it Works
+
+This package generates a single file which contains --help output from every command in a Dart console application.
 
 This builder works as follows:
 1. Find the binary executable file in your package
@@ -39,11 +35,56 @@ Include the version of your package in our source code.
 
     `README.g.md` will be generated with content:
 
-    [comment]: <> (Generated code. Do not modify.)
-    ```md
-    # Description
+># example_cli
+>
+>Example CLI app
+>
+>## Usage
+>
+>```sh
+>example_cli --help
+>```
+>
+>Help output:
+>
+>```
+>Example CLI app
+>
+>Usage: example_cli <command> [arguments]
+>
+>Global options:
+>-h, --help    Print this usage information.
+>
+>Available commands:
+  >child_command              Child Command description
+>
+>Run "example_cli help <command>" for more information about a command.
+>```
+>
+>## Available commands
+>
+>* [child_command](#child_command)
+>
+>### child_command
+>
+>```sh
+>example_cli child_command --help
+>```
+>
+>Help output:
+>
+>```
+>Child Command description
+>
+>Usage: example_cli child_command [arguments]
+> -h, --help                                  Print this usage information.
+>    --option_arg=<value help for option>    An option argument
+>    --[no-]flag_arg                         A flag argument
+>
+>Run "example_cli help" to see global options.
+>```
 
-    ```
+See a full example output here: [Example App Output](https://github.com/m-skolnick/cli_readme_builder/blob/main/example/my_output_file.md)
 
 ## Customization
 
@@ -59,5 +100,3 @@ targets:
         options:
           output: my_output_file.md
 ```
-
-[build config]: https://pub.dev/packages/build_config
