@@ -1,4 +1,8 @@
 
+# 1.0.6
+
+- clean up publish script
+
 # 1.0.5
 
 - add example readme
