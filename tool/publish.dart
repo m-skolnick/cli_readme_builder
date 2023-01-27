@@ -12,11 +12,13 @@ Future<void> main(List<String> args) async {
     throwOnError: false,
   ).run('dart pub publish --dry-run');
   if (dryRunResult.first.exitCode != 0) {
+    print('PUBLISH FAILED AT DRY RUN');
     return;
   }
 
   final publishResult = await Shell().run('dart pub publish -f');
   if (publishResult.first.exitCode != 0) {
+    print('PUBLISH FAILED AT PUBLISH');
     return;
   }
 
