@@ -1,6 +1,6 @@
 name: cli_readme_builder
 description: A builder for generating a readme file from CLI
-version: 1.0.4
+version: 1.0.5
 repository: https://github.com/m-skolnick/cli_readme_builder
 
 environment:
