@@ -5,5 +5,5 @@ import 'package:process_run/shell.dart';
 Future<void> main(List<String> args) async {
   final newVersion = args.first;
   await Shell().run('dart pub publish -f');
-  await Shell().run('gh release create $newVersion --notes "bugfix release"');
+  await Shell().run('gh release create $newVersion --notes "$newVersion"');
 }

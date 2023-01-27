@@ -4,7 +4,7 @@ The goal of this package is to automate the process of creating a readme file fo
 
 ### How it Works
 
-This package generates a single file which contains --help output from every command in a Dart console application.
+This package generates a single file which contains --help output from every command in the application.
 
 This builder works as follows:
 1. Find the binary executable file in your package
