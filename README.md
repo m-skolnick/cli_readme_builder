@@ -1,6 +1,6 @@
 ## Overview
 
-The goal of this package is to automated the process of creating a readme file for Dart console applications.
+The goal of this package is to automate the process of creating a readme file for Dart console applications.
 
 ### How it Works
 
