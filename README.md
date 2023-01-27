@@ -4,37 +4,32 @@ The goal of this package is to automate the process of creating a readme file fo
 
 ### How it Works
 
-This package generates a single file which contains --help output from every command in the application.
+This package generates a single file which contains `--help` output from every command in the application.
 
 This builder works as follows:
 1. Find the binary executable file in your package
 1. Run the executable with the `--help` flag
 1. Capture the output and parse it
-1. For each command in the help output, capture the `--help` output of that command and it's sub-commands
+1. For each top-level command, capture the `--help` output of that command and its sub-commands
 1. Generate a file with the information gathered above
 
 ## Usage
-Include the version of your package in our source code.
-
-1. Add `cli_readme_builder` to `pubspec.yaml`. Also make sure there is a `version`
-   field.
+1. Add `cli_readme_builder` and `build_runner` to `pubspec.yaml`
 
     ```yaml
-    name: my_pkg
-    version: 1.2.3
+    name: example_cli
     dev_dependencies:
       build_runner: ^1.0.0
       cli_readme_builder: ^1.0.0
     ```
 
-2. Run a build.
+1. Run a build
 
     ```console
     > dart pub run build_runner build
     ```
 
-    `README.g.md` will be generated with content:
-
+1. `README.g.md` will be generated with content:
 ># example_cli
 >
 >Example CLI app
