@@ -79,11 +79,11 @@ This builder works as follows:
 >Run "example_cli help" to see global options.
 >```
 
-See a full example output here: [Example App Output](example_app_output)
+See a full example output here: [Example App Output][example_app_output]
 
 ## Customization
 
-To change the path of the generated file, create a [`build.yaml`](build_config)
+To change the path of the generated file, create a [`build.yaml`][build_config]
 in the root of your package.
 By changing the `output` option of this builder, the path can be customized:
 
