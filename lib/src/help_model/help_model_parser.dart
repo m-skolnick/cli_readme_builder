@@ -72,8 +72,9 @@ class HelpModelParser {
   void setSectionStarts() {
     descriptionStart = 0;
     usageStart = outputLines.indexWhere((e) => e.contains('Usage: ') && e.contains('[arguments]'));
-    commandsListSectionStart =
-        outputLines.indexWhere((e) => e.contains('Available commands:') || e.contains('Available subcommands:'));
+    commandsListSectionStart = outputLines.indexWhere(
+      (e) => e.contains('Available commands:') || e.contains('Available subcommands:'),
+    );
     commandsListStart = commandsListSectionStart + 1;
     helpPromptStart = outputLines.indexWhere((e) => e.contains('Run') && e.contains('help'));
   }
