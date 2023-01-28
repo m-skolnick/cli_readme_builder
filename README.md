@@ -79,11 +79,11 @@ This builder works as follows:
 >Run "example_cli help" to see global options.
 >```
 
-See a full example output here: [Example App Output](https://github.com/m-skolnick/cli_readme_builder/blob/main/example/my_output_file.md)
+See a full example output here: [Example App Output](example_app_output)
 
 ## Customization
 
-To change the path of the generated file, create a [`build.yaml`](build config)
+To change the path of the generated file, create a [`build.yaml`](build_config)
 in the root of your package.
 By changing the `output` option of this builder, the path can be customized:
 
@@ -95,3 +95,10 @@ targets:
         options:
           output: my_output_file.md
 ```
+
+## Maintainers
+
+- [Micaiah Skolnick](https://github.com/m-skolnick)
+
+[build_config]: https://pub.dev/packages/build_config
+[example_app_output]: https://github.com/m-skolnick/cli_readme_builder/blob/main/example/my_output_file.md
