@@ -150,6 +150,7 @@ class HelpModelParser {
       final commandName = getCommandName();
 
       final parentsWithoutCliName = parents.split(' ').skip(1).join(' ');
+      final childCommandModelFutures = <Future<HelpModel>>[];
 
       for (var childCommand in commandList) {
         final commandChain = [
@@ -159,17 +160,32 @@ class HelpModelParser {
           childCommand,
         ].where((e) => e.trim().isNotEmpty).join(' ').trim();
 
-        final commandOutput = await SystemShell.run('dart run $commandChain --help');
-        subCommandsOutput.add(
-          await HelpModelParser(
-            executablePath: executablePath,
-            parents: [parents, commandName].where((e) => e.trim().isNotEmpty).join(' '),
-            output: commandOutput,
-          ).parseModel(),
+        final childCommandModel = _getChildCommandModel(
+          commandOutputFuture: SystemShell.run('dart run $commandChain --help'),
+          commandName: commandName,
         );
+        childCommandModelFutures.add(childCommandModel);
       }
+
+      final childCommandModels = await Future.wait(childCommandModelFutures);
+      subCommandsOutput.addAll(childCommandModels);
     }
 
     return subCommandsOutput;
+  }
+
+  Future<HelpModel> _getChildCommandModel({
+    required Future<String> commandOutputFuture,
+    required String commandName,
+  }) async {
+    final output = await commandOutputFuture;
+
+    final childModel = await HelpModelParser(
+      executablePath: executablePath,
+      parents: [parents, commandName].where((e) => e.trim().isNotEmpty).join(' '),
+      output: output,
+    ).parseModel();
+
+    return childModel;
   }
 }

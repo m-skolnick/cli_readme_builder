@@ -1,4 +1,6 @@
-# Example CLI app
+# example_cli
+
+Example CLI app
 
 ## Usage
 
@@ -17,47 +19,130 @@ Global options:
 -h, --help    Print this usage information.
 
 Available commands:
-  command_1   command 1 description
-  command_2   command 2 description
+  branch_command            Branch Command description
+  leaf_command              Leaf Command description
+  leaf_command_with_input   Leaf Command description
 
 Run "example_cli help <command>" for more information about a command.
 ```
 
 ## Available commands
 
-* [command_1](#command_1)
-* [command_2](#command_2)
+* [branch_command](#branch_command)
+  * [child_branch_command](#child_branch_command)
+    * [leaf_command](#leaf_command)
+  * [leaf_command](#leaf_command)
+* [leaf_command](#leaf_command)
+* [leaf_command_with_input](#leaf_command_with_input)
 
-### command_1
+### branch_command
 
 ```sh
-example_cli command_1 --help
+example_cli branch_command --help
 ```
 
 Help output:
 
 ```
-command 1 description
+Branch Command description
 
-Usage: example_cli command_1 [arguments]
+Usage: example_cli branch_command <subcommand> [arguments]
 -h, --help    Print this usage information.
+
+Available subcommands:
+  child_branch_command   Child Branch Command description
+  leaf_command           Leaf Command description
 
 Run "example_cli help" to see global options.
 ```
 
-### command_2
+#### branch_command child_branch_command
 
 ```sh
-example_cli command_2 --help
+example_cli branch_command child_branch_command --help
 ```
 
 Help output:
 
 ```
-command 2 description
+Child Branch Command description
 
-Usage: example_cli command_2 [arguments]
+Usage: example_cli branch_command child_branch_command <subcommand> [arguments]
+-h, --help    Print this usage information.
+
+Available subcommands:
+  leaf_command   Leaf Command description
+
+Run "example_cli help" to see global options.
+```
+
+##### branch_command child_branch_command leaf_command
+
+```sh
+example_cli branch_command child_branch_command leaf_command --help
+```
+
+Help output:
+
+```
+Leaf Command description
+
+Usage: example_cli branch_command child_branch_command leaf_command [arguments]
 -h, --help    Print this usage information.
 
 Run "example_cli help" to see global options.
 ```
+
+#### branch_command leaf_command
+
+```sh
+example_cli branch_command leaf_command --help
+```
+
+Help output:
+
+```
+Leaf Command description
+
+Usage: example_cli branch_command leaf_command [arguments]
+-h, --help    Print this usage information.
+
+Run "example_cli help" to see global options.
+```
+
+### leaf_command
+
+```sh
+example_cli leaf_command --help
+```
+
+Help output:
+
+```
+Leaf Command description
+
+Usage: example_cli leaf_command [arguments]
+-h, --help    Print this usage information.
+
+Run "example_cli help" to see global options.
+```
+
+### leaf_command_with_input
+
+```sh
+example_cli leaf_command_with_input --help
+```
+
+Help output:
+
+```
+Leaf Command description
+
+Usage: example_cli leaf_command_with_input [arguments]
+-h, --help                                  Print this usage information.
+    --option_arg=<value help for option>    An option argument
+    --[no-]flag_arg                         A flag argument
+
+Run "example_cli help" to see global options.
+```
+
