@@ -1,4 +1,7 @@
 
+# 1.2.0
+
+- speed up builder by executing and parsing child commands concurrently
 # 1.1.0
 
 - speed up builder by executing and parsing child commands concurrently
