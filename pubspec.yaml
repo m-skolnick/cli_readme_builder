@@ -4,7 +4,7 @@ version: 1.2.0
 repository: https://github.com/m-skolnick/cli_readme_builder
 
 environment:
-  sdk: '>=2.15.0 <3.0.0'
+  sdk: '>=2.16.0 <3.0.0'
 
 dependencies:
   build: ^2.1.0
