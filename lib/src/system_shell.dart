@@ -1,3 +1,5 @@
+import '../cli_readme_builder.dart';
+import 'package:mason_logger/mason_logger.dart';
 import 'package:process_run/shell.dart';
 
 class SystemShell {
@@ -5,8 +7,8 @@ class SystemShell {
 
   static Future<String> run(String command) async {
     final output = await Shell(
-      commandVerbose: true,
-      commentVerbose: true,
+      commandVerbose: logger.level == Level.verbose,
+      commentVerbose: logger.level == Level.verbose,
     ).run(command);
 
     return output.outText;

@@ -96,6 +96,21 @@ targets:
           output: my_output_file.md
 ```
 
+## Advanced
+
+### Verbose logging
+
+`verbose_logging` can be added as an input to the `build.yaml`
+
+```yaml
+targets:
+  $default:
+    builders:
+      cli_readme_builder:
+        options:
+          verbose_logging: true
+```
+
 ## Maintainers
 
 - [Micaiah Skolnick](https://github.com/m-skolnick)

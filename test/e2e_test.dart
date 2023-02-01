@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cli_readme_builder/cli_readme_builder.dart';
 import 'package:path/path.dart' as p;
 import 'package:process_run/shell.dart';
 import 'package:test/test.dart';
@@ -17,7 +18,7 @@ void main() {
       );
 
       if (result.first.exitCode != 0) {
-        print(result.errText);
+        logger.err(result.errText);
       }
 
       expect(result.first.exitCode, equals(0));

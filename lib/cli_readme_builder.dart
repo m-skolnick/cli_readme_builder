@@ -10,18 +10,29 @@ library builder;
 import 'dart:async';
 
 import 'package:build/build.dart';
+import 'package:mason_logger/mason_logger.dart';
 
 import 'src/executable_finder.dart';
 import 'src/help_model/help_model_parser.dart';
 import 'src/help_model/help_model_string_builder.dart';
 import 'src/system_shell.dart';
 
-Builder cliReadmeBuilder([BuilderOptions? options]) => _ReadmeBuilder(options?.config['output'] as String);
+final logger = Logger();
+
+Builder cliReadmeBuilder([BuilderOptions? options]) => _ReadmeBuilder(
+      options?.config['output'] as String,
+      options?.config['verbose_logging'] as bool,
+    );
 
 class _ReadmeBuilder implements Builder {
   final String output;
+  final bool verboseLogging;
 
-  _ReadmeBuilder(this.output);
+  _ReadmeBuilder(this.output, this.verboseLogging) {
+    if (verboseLogging) {
+      logger.level = Level.verbose;
+    }
+  }
 
   @override
   Future<void> build(BuildStep buildStep) async {
