@@ -15,5 +15,6 @@ builders:
     defaults:
       options:
         output: "README.g.md"
+        verbose_logging: false
     build_to: source
     auto_apply: dependents

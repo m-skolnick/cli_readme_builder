@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:path/path.dart' as p;
+import '../cli_readme_builder.dart';
 
 class ExecutableFinder {
   static String getExecutablePath() {
@@ -7,6 +8,7 @@ class ExecutableFinder {
 
     final executableDirs = Directory(binDir).listSync();
     if (executableDirs.isNotEmpty && executableDirs.length == 1) {
+      logger.detail('executable path is: ${executableDirs.first.path}');
       return executableDirs.first.path;
     }
 
