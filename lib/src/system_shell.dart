@@ -5,9 +5,8 @@ class SystemShell {
 
   static Future<String> run(String command) async {
     final output = await Shell(
-      verbose: false,
-      commandVerbose: false,
-      commentVerbose: false,
+      commandVerbose: true,
+      commentVerbose: true,
     ).run(command);
 
     return output.outText;
