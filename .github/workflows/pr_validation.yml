@@ -28,5 +28,8 @@ jobs:
       - name: Pub get
         run: dart pub get
 
+      - name: Publish dry run
+        run: dart pub publish --dry-run
+
       - name: try running build_runner
         run: cd example/ && dart run build_runner build --delete-conflicting-outputs

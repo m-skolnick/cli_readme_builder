@@ -1,7 +1,11 @@
 
+# 1.3.0
+
+- add logger and allow verbose_logging flag in build.yaml input
+
 # 1.2.0
 
-- speed up builder by executing and parsing child commands concurrently
+- bump Dart SDK version
 # 1.1.0
 
 - speed up builder by executing and parsing child commands concurrently
