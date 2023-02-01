@@ -7,6 +7,7 @@ class ExecutableFinder {
 
     final executableDirs = Directory(binDir).listSync();
     if (executableDirs.isNotEmpty && executableDirs.length == 1) {
+      print('executable path is: ${executableDirs.first.path}');
       return executableDirs.first.path;
     }
 
