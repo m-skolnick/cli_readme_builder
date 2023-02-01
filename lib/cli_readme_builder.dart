@@ -30,7 +30,9 @@ class _ReadmeBuilder implements Builder {
 
   _ReadmeBuilder(this.output, this.verboseLogging) {
     if (verboseLogging) {
-      logger.level = Level.verbose;
+      logger
+        ..level = Level.verbose
+        ..info('LOGGING AT A VERBOSE LEVEL');
     }
   }
 

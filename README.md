@@ -100,7 +100,7 @@ targets:
 
 ### Verbose logging
 
-`verbose_logging` can be added as an input to the `build.yaml`
+In an effort to make debugging easier, `verbose_logging` can be added as an input to the `build.yaml`
 
 ```yaml
 targets:
