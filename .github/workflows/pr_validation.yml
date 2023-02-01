@@ -1,0 +1,32 @@
+name: Validate PR
+
+env:
+  dart_version: 2.18.5
+  flutter_version: 3.3.9
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pr_validation:
+    name: Validate PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: true
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.flutter_version }}
+
+      - name: Pub get
+        run: dart pub get
+
+      - name: try running build_runner
+        run: cd example/ && dart run build_runner build --delete-conflicting-outputs
