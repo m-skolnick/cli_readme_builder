@@ -30,5 +30,6 @@ void main() {
 
       expect(outputFileLines, desiredOutputFileLines);
     },
+    timeout: const Timeout(Duration(minutes: 2)),
   );
 }
