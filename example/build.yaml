@@ -4,3 +4,4 @@ targets:
       cli_readme_builder:
         options:
           output: my_output_file.md
+          verbose_logging: true
