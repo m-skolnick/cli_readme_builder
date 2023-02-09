@@ -1,7 +1,7 @@
-<h2 style="text-align: center;">CLI README Builder</h2>
+<h2 align="center">CLI README Builder</h2>
 <br/>
 
-<p style="text-align: center;">
+<p align="center">
 <a href="https://github.com/m-skolnick/cli_readme_builder/actions/workflows/build.yaml"><img src="https://github.com/m-skolnick/cli_readme_builder/actions/workflows/build.yaml/badge.svg" alt="build status"></a>
 <a href="https://codecov.io/gh/m-skolnick/cli_readme_builder"><img src="https://codecov.io/gh/m-skolnick/cli_readme_builder/branch/main/graph/badge.svg" alt="codecov"></a>
 <a href="https://pub.dev/packages/cli_readme_builder"><img src="https://img.shields.io/pub/v/cli_readme_builder.svg" alt="Latest version on pub.dev"></a>
@@ -10,7 +10,7 @@
 ---
 <br/>
 
-<p style="text-align: center;">A builder to generate a README </p>
+<p align="center">A builder to generate a README </p>
 <br/>
 
 ## Overview
