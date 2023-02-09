@@ -1,7 +1,9 @@
 import 'package:process_run/shell.dart';
 
-// Used to quickly publish this package.
-// Soon this will be moved to a github action which runs on [main]
+// Used to release this package.
+// Use this file to create a release
+//     -> release triggers tag creation
+//          -> triggers a GH action to upload code coverage
 
 // example usage
 // dart run tool/publish.dart v1.0.4
