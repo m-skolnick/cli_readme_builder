@@ -1,4 +1,4 @@
-<h2 align="center">CLI README Builder</h2>
+<h1 align="center">CLI README Builder</h1>
 <br/>
 
 <p align="center">
@@ -11,7 +11,6 @@
 <br/>
 
 <p align="center">A builder to generate a README </p>
-<br/>
 
 ## Overview
 
