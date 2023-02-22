@@ -26,5 +26,5 @@ Future<void> main(List<String> args) async {
     return;
   }
 
-  await Shell().run('gh release create $newVersion --notes "$newVersion"');
+  await Shell().run('gh release create $newVersion --notes ""');
 }
