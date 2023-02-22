@@ -1,3 +1,5 @@
+#!/usr/bin/env dart
+
 import 'package:process_run/shell.dart';
 
 // Used to release this package.
