@@ -1,4 +1,7 @@
 
+# 1.4.0
+
+- add "text" decorator to help output in generated markdown. This prevents github from displaying certain characters with undesired colors.
 # 1.3.0
 
 - add logger and allow verbose_logging flag in build.yaml input

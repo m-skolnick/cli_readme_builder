@@ -147,7 +147,7 @@ class HelpModelStringBuilder {
 
 Help output:
 
-```
+```text
 {{help_output}}
 ```
 ''';
@@ -165,7 +165,7 @@ Help output:
 
 Help output:
 
-```
+```text
 {{top_level_help_output}}
 ```
 

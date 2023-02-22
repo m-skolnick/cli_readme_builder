@@ -10,7 +10,7 @@ example_cli --help
 
 Help output:
 
-```
+```text
 Example CLI app
 
 Usage: example_cli <command> [arguments]
@@ -43,7 +43,7 @@ example_cli branch_command --help
 
 Help output:
 
-```
+```text
 Branch Command description
 
 Usage: example_cli branch_command <subcommand> [arguments]
@@ -64,7 +64,7 @@ example_cli branch_command child_branch_command --help
 
 Help output:
 
-```
+```text
 Child Branch Command description
 
 Usage: example_cli branch_command child_branch_command <subcommand> [arguments]
@@ -84,7 +84,7 @@ example_cli branch_command child_branch_command leaf_command --help
 
 Help output:
 
-```
+```text
 Leaf Command description
 
 Usage: example_cli branch_command child_branch_command leaf_command [arguments]
@@ -101,7 +101,7 @@ example_cli branch_command leaf_command --help
 
 Help output:
 
-```
+```text
 Leaf Command description
 
 Usage: example_cli branch_command leaf_command [arguments]
@@ -118,7 +118,7 @@ example_cli leaf_command --help
 
 Help output:
 
-```
+```text
 Leaf Command description
 
 Usage: example_cli leaf_command [arguments]
@@ -135,7 +135,7 @@ example_cli leaf_command_with_input --help
 
 Help output:
 
-```
+```text
 Leaf Command description
 
 Usage: example_cli leaf_command_with_input [arguments]

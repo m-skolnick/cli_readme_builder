@@ -38,7 +38,7 @@ $_mockCommandName --help
 
 Help output:
 
-```
+```text
 $_mockHelpOutput
 ```
 '''
@@ -64,7 +64,7 @@ $_mockCliName $_mockCommandName --help
 
 Help output:
 
-```
+```text
 $_mockHelpOutput
 ```
 '''
@@ -160,7 +160,7 @@ $_mockCliName --help
 
 Help output:
 
-```
+```text
 $_mockHelpOutput
 ```
 
@@ -178,7 +178,7 @@ $_mockCliName command_1 --help
 
 Help output:
 
-```
+```text
 $_mockHelpOutput
 ```
 
@@ -190,7 +190,7 @@ $_mockCliName command_1 command_1_a --help
 
 Help output:
 
-```
+```text
 $_mockHelpOutput
 ```
 
@@ -202,7 +202,7 @@ $_mockCliName command_2 --help
 
 Help output:
 
-```
+```text
 $_mockHelpOutput
 ```
 
