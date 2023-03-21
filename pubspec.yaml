@@ -1,6 +1,6 @@
 name: cli_readme_builder
 description: A builder to automate the process of creating a README for Dart console applications
-version: 1.4.0
+version: 1.5.0
 repository: https://github.com/m-skolnick/cli_readme_builder
 
 environment:
@@ -10,7 +10,7 @@ dependencies:
   build: ^2.1.0
   # Not imported in code, but used to constrain `build.yaml` requirements
   build_config: ^1.0.0
-  mason_logger: ^0.1.0
+  mason_logger: ^0.2.5
   meta: ^1.7.0
   path: ^1.8.3
   process_run: ^0.12.3+2
