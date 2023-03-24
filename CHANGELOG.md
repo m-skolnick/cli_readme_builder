@@ -1,3 +1,6 @@
+# 1.6.0
+
+- chore: drop minimum version of "path"
 
 # 1.5.0
 
