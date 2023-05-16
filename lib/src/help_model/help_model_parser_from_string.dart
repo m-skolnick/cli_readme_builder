@@ -31,14 +31,14 @@ Available subcommands:
 
 Run "example_cli help" to see global options.
 */
-class HelpModelParser {
+class HelpModelParserFromString {
   final String parents;
   final String executablePath;
   final bool recursive;
   final List<String> outputLines;
   final String output;
 
-  HelpModelParser({
+  HelpModelParserFromString({
     required this.executablePath,
     required this.output,
     required this.parents,
@@ -181,7 +181,7 @@ class HelpModelParser {
   }) async {
     final output = await commandOutputFuture;
 
-    final childModel = await HelpModelParser(
+    final childModel = await HelpModelParserFromString(
       executablePath: executablePath,
       parents: [parents, commandName].where((e) => e.trim().isNotEmpty).join(' '),
       output: output,

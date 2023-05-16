@@ -1,4 +1,4 @@
-import 'package:cli_readme_builder/src/help_model/help_model_parser.dart';
+import 'package:cli_readme_builder/src/help_model/help_model_parser_from_string.dart';
 import 'package:test/test.dart';
 
 const _mockCliName = 'mock_cli_name';
@@ -19,7 +19,7 @@ Available commands:
 
 Run "$_mockCliName help <command>" for more information about a command.
 ''';
-        final model = await HelpModelParser(
+        final model = await HelpModelParserFromString(
           output: mockOutput,
           executablePath: '',
           parents: '',
@@ -53,7 +53,7 @@ Available subcommands:
 
 Run "$_mockCliName help" to see global options.
 ''';
-        final model = await HelpModelParser(
+        final model = await HelpModelParserFromString(
           output: mockOutput,
           executablePath: '',
           parents: _mockCliName,
@@ -84,7 +84,7 @@ Usage: $_mockCliName leaf_command [arguments]
 
 Run "$_mockCliName help" to see global options.
 ''';
-        final model = await HelpModelParser(
+        final model = await HelpModelParserFromString(
           output: mockOutput,
           executablePath: '',
           parents: _mockCliName,
@@ -111,7 +111,7 @@ Usage: $_mockCliName branch_command child_command [arguments]
 
 Run "$_mockCliName help" to see global options.
 ''';
-        final model = await HelpModelParser(
+        final model = await HelpModelParserFromString(
           output: mockOutput,
           executablePath: '',
           parents: '$_mockCliName branch_command',

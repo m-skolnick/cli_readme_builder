@@ -13,7 +13,7 @@ import 'package:build/build.dart';
 import 'package:mason_logger/mason_logger.dart';
 
 import 'src/executable_finder.dart';
-import 'src/help_model/help_model_parser.dart';
+import 'src/help_model/help_model_parser_from_string.dart';
 import 'src/help_model/help_model_string_builder.dart';
 import 'src/system_shell.dart';
 
@@ -42,7 +42,7 @@ class _ReadmeBuilder implements Builder {
 
     final topLevelOutput = await SystemShell.run('dart run $executablePath --help');
 
-    final topLevelHelpModel = await HelpModelParser(
+    final topLevelHelpModel = await HelpModelParserFromString(
       executablePath: executablePath,
       parents: '',
       output: topLevelOutput,
