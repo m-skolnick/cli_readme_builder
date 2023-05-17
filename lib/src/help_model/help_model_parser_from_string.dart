@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import '../system_shell.dart';
 import 'help_model.dart';
 
@@ -31,19 +33,20 @@ Available subcommands:
 
 Run "example_cli help" to see global options.
 */
-class HelpModelParser {
+class HelpModelParserFromString {
   final String parents;
   final String executablePath;
-  final bool recursive;
   final List<String> outputLines;
   final String output;
+  late final SystemShell shell;
 
-  HelpModelParser({
+  HelpModelParserFromString({
     required this.executablePath,
     required this.output,
     required this.parents,
-    this.recursive = true,
-  }) : outputLines = output.split('\n');
+    SystemShell? shell,
+  })  : outputLines = output.split('\n'),
+        shell = shell ?? SystemShell();
 
   late int descriptionStart;
   late int usageStart;
@@ -55,7 +58,9 @@ class HelpModelParser {
   late int usageEnd;
   late int commandsListEnd;
 
-  Future<HelpModel> parseModel() async {
+  Future<HelpModel> parseModel({
+    @visibleForTesting bool parseChildren = true,
+  }) async {
     setSectionStarts();
     setSectionEnds();
 
@@ -65,7 +70,7 @@ class HelpModelParser {
       parents: parents,
       commandName: getCommandName(),
       childCommands: getCommandList(),
-      childCommandModels: await getSubCommandsOutput(),
+      childCommandModels: parseChildren ? (await getSubCommandsOutput()) : [],
     );
   }
 
@@ -146,31 +151,29 @@ class HelpModelParser {
   Future<List<HelpModel>> getSubCommandsOutput() async {
     final subCommandsOutput = <HelpModel>[];
 
-    if (recursive) {
-      final commandList = getCommandList();
-      final commandName = getCommandName();
+    final commandList = getCommandList();
+    final commandName = getCommandName();
 
-      final parentsWithoutCliName = parents.split(' ').skip(1).join(' ');
-      final childCommandModelFutures = <Future<HelpModel>>[];
+    final parentsWithoutCliName = parents.split(' ').skip(1).join(' ');
+    final childCommandModelFutures = <Future<HelpModel>>[];
 
-      for (var childCommand in commandList) {
-        final commandChain = [
-          executablePath,
-          parentsWithoutCliName,
-          if (parents.isNotEmpty) commandName,
-          childCommand,
-        ].where((e) => e.trim().isNotEmpty).join(' ').trim();
+    for (var childCommand in commandList) {
+      final commandChain = [
+        executablePath,
+        parentsWithoutCliName,
+        if (parents.isNotEmpty) commandName,
+        childCommand,
+      ].where((e) => e.trim().isNotEmpty).join(' ').trim();
 
-        final childCommandModel = _getChildCommandModel(
-          commandOutputFuture: SystemShell.run('dart run $commandChain --help'),
-          commandName: commandName,
-        );
-        childCommandModelFutures.add(childCommandModel);
-      }
-
-      final childCommandModels = await Future.wait(childCommandModelFutures);
-      subCommandsOutput.addAll(childCommandModels);
+      final childCommandModel = _getChildCommandModel(
+        commandOutputFuture: shell.run('dart run $commandChain --help'),
+        commandName: commandName,
+      );
+      childCommandModelFutures.add(childCommandModel);
     }
+
+    final childCommandModels = await Future.wait(childCommandModelFutures);
+    subCommandsOutput.addAll(childCommandModels);
 
     return subCommandsOutput;
   }
@@ -181,7 +184,7 @@ class HelpModelParser {
   }) async {
     final output = await commandOutputFuture;
 
-    final childModel = await HelpModelParser(
+    final childModel = await HelpModelParserFromString(
       executablePath: executablePath,
       parents: [parents, commandName].where((e) => e.trim().isNotEmpty).join(' '),
       output: output,

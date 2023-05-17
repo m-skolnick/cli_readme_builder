@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:path/path.dart' as p;
-import '../cli_readme_builder.dart';
+import '../readme_builder.dart';
 
 class ExecutableFinder {
   static String getExecutablePath() {

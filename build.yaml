@@ -9,7 +9,7 @@ targets:
 
 builders:
   cli_readme_builder:
-    import: "package:cli_readme_builder/cli_readme_builder.dart"
+    import: "package:cli_readme_builder/readme_builder.dart"
     builder_factories: ["cliReadmeBuilder"]
     build_extensions: {"pubspec.yaml": ["README.g.md"]}
     defaults:

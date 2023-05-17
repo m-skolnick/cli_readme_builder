@@ -1,3 +1,7 @@
+# 2.0.0
+
+- feat: add ability to run as dart executable
+
 # 1.6.0
 
 - chore: drop minimum version of "path"
