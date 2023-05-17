@@ -3,5 +3,5 @@ targets:
     builders:
       cli_readme_builder:
         options:
-          output: my_output_file.md
+          output: example_output_file_from_build_runner.md
           verbose_logging: true

@@ -1,4 +1,4 @@
-class HelpModel {
+class HelpModel extends Comparable<HelpModel> {
   /// Name of command
   final String? commandName;
 
@@ -14,7 +14,7 @@ class HelpModel {
   final String parents;
 
   /// A list of all sub commands parsed from help output
-  /// This is used to execute and capture the help outputs for each sub-command
+  /// When parsing from help output string, this is used to execute and capture the help outputs for each sub-command
   final List<String> childCommands;
 
   /// Parsed help output from each sub command
@@ -28,4 +28,12 @@ class HelpModel {
     required this.childCommands,
     required this.childCommandModels,
   });
+
+  @override
+  int compareTo(HelpModel other) {
+    if (commandName != null) {
+      return commandName!.compareTo(other.commandName ?? '');
+    }
+    return parents.compareTo(other.parents);
+  }
 }

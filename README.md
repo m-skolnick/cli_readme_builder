@@ -16,18 +16,12 @@
 
 The goal of this package is to automate the process of creating a readme file for Dart console applications.
 
-### How it Works
+This package can be used in two ways:
+1. `build_runner` -> Add to pubspec.yaml/dev_dependencies and run build_runner
+1. Dart executable -> Instantiate this class in a dart file, and execute the dart file
 
-This package generates a single file which contains `--help` output from every command in the application.
-
-This builder works as follows:
-1. Find the binary executable file in your package
-1. Run the executable with the `--help` flag
-1. Capture the output and parse it
-1. For each top-level command, capture the `--help` output of that command and its sub-commands
-1. Generate a file with the information gathered above
-
-## Usage
+In both cases, this package generates a single file which contains `--help` output from every command in the application.
+## Using this Package Through Build Runner
 1. Add `cli_readme_builder` and `build_runner` to `pubspec.yaml`
 
     ```yaml
@@ -95,11 +89,11 @@ This builder works as follows:
 
 See a full example output here: [Example App Output][example_app_output]
 
-## Customization
+### Customization
 
 To change the path of the generated file, create a [`build.yaml`][build_config]
 in the root of your package.
-By changing the `output` option of this builder, the path can be customized:
+By changing the `output` option of this builder, the path can be customized.
 
 ```yaml
 targets:
@@ -110,9 +104,9 @@ targets:
           output: my_output_file.md
 ```
 
-## Advanced
+### Advanced
 
-### Verbose logging
+#### Verbose logging
 
 In an effort to make debugging easier, `verbose_logging` can be added as an input to the `build.yaml`
 
@@ -125,9 +119,48 @@ targets:
           verbose_logging: true
 ```
 
+## Using this Package As Dart Executable
+1. Add `cli_readme_builder` to `pubspec.yaml` dev_dependencies
+
+    ```yaml
+    name: example_cli
+    dev_dependencies:
+      cli_readme_builder: ^1.0.0
+    ```
+
+1. Create a dart file where you will execute this package
+
+    ```dart
+    import 'package:cli_readme_builder/readme_builder_from_command_runner.dart';
+    import 'package:example/example_cli_command_runner.dart';
+
+    void main(List<String> args) {
+      final myCommandRunner = ExampleCliCommandRunner();
+      ReadmeBuilderFromCommandRunner(
+        args,
+        myCommandRunner,
+      ).generateReadme();
+    }
+    ```
+1. Run the file
+   ```
+   dart run <path_to_my_file>
+   ```
+1. `README.g.md` will be generated
+
+See a full example output here: [Example App Output][example_app_output]
+
+### Customization
+
+To change the path of the generated file, pass an `output` option to your build step
+
+```yaml
+dart run <path_to_my_file> --output <my_new_output_file>
+```
+
 ## Maintainers
 
 - [Micaiah Skolnick](https://github.com/m-skolnick)
 
 [build_config]: https://pub.dev/packages/build_config
-[example_app_output]: https://github.com/m-skolnick/cli_readme_builder/blob/main/example/my_output_file.md
+[example_app_output]: https://github.com/m-skolnick/cli_readme_builder/blob/main/example/example_output_file_from_cli.md

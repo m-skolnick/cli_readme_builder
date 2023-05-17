@@ -40,7 +40,7 @@ class _ReadmeBuilder implements Builder {
   Future<void> build(BuildStep buildStep) async {
     final executablePath = ExecutableFinder.getExecutablePath();
 
-    final topLevelOutput = await SystemShell.run('dart run $executablePath --help');
+    final topLevelOutput = await SystemShell().run('dart run $executablePath --help');
 
     final topLevelHelpModel = await HelpModelParserFromString(
       executablePath: executablePath,

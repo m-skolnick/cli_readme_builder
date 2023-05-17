@@ -95,7 +95,7 @@ class HelpModelStringBuilder {
   @visibleForTesting
   static List<String> getAvailableCommandsList(HelpModel model) {
     final lines = <String>[];
-    for (var childModel in model.childCommandModels) {
+    for (var childModel in model.childCommandModels..sort()) {
       var line = _commandDetailsLabelTemplate.replaceAll(
         '{{command_name}}',
         childModel.commandName ?? 'NAME NOT FOUND',
@@ -124,7 +124,7 @@ class HelpModelStringBuilder {
   @visibleForTesting
   static List<String> getAllChildCommandDetails(HelpModel model) {
     final lines = <String>[];
-    for (var childModel in model.childCommandModels) {
+    for (var childModel in model.childCommandModels..sort()) {
       final line = getCommandDetails(childModel);
 
       lines.add(line);
