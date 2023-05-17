@@ -1,8 +1,8 @@
 name: Validate PR
 
 env:
-  dart_version: 2.18.5
-  flutter_version: 3.3.9
+  dart_version: 2.19.2
+  flutter_version: 3.7.3
 
 on:
   pull_request:
@@ -16,12 +16,12 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: true
 
       - name: Install Flutter
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.flutter_version }}
 
