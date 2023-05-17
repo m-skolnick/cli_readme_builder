@@ -1,3 +1,6 @@
 tool/
 test/
+build/
+coverage/
+analysis_options.yaml
 dart_test.yaml
